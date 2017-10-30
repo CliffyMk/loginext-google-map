@@ -1,0 +1,65 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+</div>
+
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+  <form action="" method="POST" role="form">
+    <legend>Map Form</legend>
+
+
+    <div class="form-group">
+      <label for="">Upoad Location Sheet</label>
+      <input class="form-control" type="file" (change)="handleFileSelect($event)" />
+    </div>
+    <div class="form-group" *ngIf="pincodeData.length>0">
+      <label for="">Pincode Search</label>
+      <input type="text" name="search" class="form-control" id="" placeholder="Input field" [(ngModel)]="search">
+    </div>
+  </form>
+</div>
+
+<div class="container-fluid">
+  <div class="jumbotron col-xs-7 col-sm-7 col-md-7 col-lg-7" *ngIf="pincodeData.length===0">
+    Please Upload a Excel File
+  </div>
+
+  <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" *ngIf="pincodeData.length>0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <td>Latitude</td>
+          <td>Longitude</td>
+          <td>Location</td>
+          <td>Pincode</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pincode of pincodeData | searchPipe:search:'pincode'" (click)="changeMarker(pincode)">
+          <td>{{pincode.latitude}}</td>
+          <td>{{pincode.longitude}}</td>
+          <td>{{pincode.location}}</td>
+          <td>{{pincode.pincode}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" *ngIf="mapLatitude">
+    <sebm-google-map [(latitude)]="mapLatitude" [(longitude)]="mapLongitude">
+      <sebm-google-map-marker [(latitude)]="mapLatitude" [(longitude)]="mapLongitude">
+      </sebm-google-map-marker>
+    </sebm-google-map>
+  </div>
+
+  <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" *ngIf="!mapLatitude">
+    <div class="jumbotron">
+      Please Select a pincode to view on map
+    </div>
+  </div>
+
+</div>
